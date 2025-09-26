@@ -1,3 +1,4 @@
 # ignore build outputs, but make sure the directory still exists
 *
 !.gitignore
+!_headers
