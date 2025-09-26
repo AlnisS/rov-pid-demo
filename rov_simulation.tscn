@@ -1,0 +1,282 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://rov/ROV21.tscn" type="PackedScene" id=1]
+[ext_resource path="res://rov_simulation.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.116904, 0.131371, 0.190559 )
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 0.486275, 0.486275, 0.486275, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+flags_unshaded = true
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_unshaded = true
+albedo_color = Color( 0, 1, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_unshaded = true
+albedo_color = Color( 0, 0, 1, 1 )
+
+[node name="ROVSimulation" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="ROV" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.343169, 0, 0 )
+gravity_scale = 0.0
+
+[node name="CollisionShape" type="CollisionShape" parent="ROV"]
+shape = SubResource( 1 )
+
+[node name="ROV21" parent="ROV" instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.0487756, 0.136118 )
+
+[node name="Target" type="Spatial" parent="."]
+transform = Transform( 0.840812, 0.179313, -0.510765, -0.47159, 0.705892, -0.528507, 0.265777, 0.685247, 0.678085, 0.321466, 0, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGCombiner" type="CSGCombiner" parent="Target"]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0 )
+material_override = SubResource( 5 )
+
+[node name="CSGBox" type="CSGBox" parent="Target/CSGCombiner"]
+width = 0.1
+height = 0.1
+
+[node name="CSGBox2" type="CSGBox" parent="Target/CSGCombiner"]
+transform = Transform( 0.866025, -2.98023e-08, 0.5, -7.45058e-09, 1, -5.96046e-08, -0.5, 0, 0.866025, 0.255636, 4.47035e-08, -0.53071 )
+width = 0.1
+height = 0.1
+depth = 1.0
+
+[node name="CSGBox3" type="CSGBox" parent="Target/CSGCombiner"]
+transform = Transform( 0.866025, -2.98023e-08, -0.5, -5.96046e-08, 1, 0, 0.5, 0, 0.866025, -0.25286, 5.96046e-08, -0.53375 )
+width = 0.1
+height = 0.1
+depth = 1.0
+
+[node name="PerspectiveViewportContainer" type="ViewportContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_right = -0.320007
+margin_bottom = -0.200012
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="PerspectiveViewportContainer"]
+size = Vector2( 511, 299 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="CameraBase" type="Spatial" parent="PerspectiveViewportContainer/Viewport"]
+
+[node name="PerspectiveCamera" type="Camera" parent="PerspectiveViewportContainer/Viewport/CameraBase"]
+transform = Transform( 1, 0, 0, 0, 0.8165, 0.577345, 0, -0.577345, 0.8165, 0, 0.704151, 0.956516 )
+fov = 50.0
+
+[node name="FrontViewportContainer" type="ViewportContainer" parent="."]
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_right = -0.320007
+margin_bottom = -0.200012
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="FrontViewportContainer"]
+size = Vector2( 511, 299 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="FrontCamera" type="Camera" parent="FrontViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+projection = 1
+fov = 50.0
+
+[node name="TopViewportContainer" type="ViewportContainer" parent="."]
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_right = -0.320007
+margin_bottom = -0.200012
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="TopViewportContainer"]
+size = Vector2( 511, 299 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="TopCamera" type="Camera" parent="TopViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0 )
+projection = 1
+fov = 50.0
+
+[node name="RightViewportContainer" type="ViewportContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -0.320007
+margin_bottom = -0.200012
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="RightViewportContainer"]
+size = Vector2( 511, 299 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="RightCamera" type="Camera" parent="RightViewportContainer/Viewport"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2, 0, 0 )
+projection = 1
+fov = 50.0
+
+[node name="VerticalDivider" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -1.0
+margin_right = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="HorizontalDivider" type="ColorRect" parent="."]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -1.0
+margin_right = 2.0
+margin_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ControlContainer" type="VBoxContainer" parent="."]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 203.0
+margin_bottom = 163.0
+
+[node name="RandomizeTargetButton" type="Button" parent="ControlContainer"]
+margin_right = 198.0
+margin_bottom = 20.0
+text = "Randomize Target"
+
+[node name="ControllerP" type="HBoxContainer" parent="ControlContainer"]
+margin_top = 24.0
+margin_right = 198.0
+margin_bottom = 43.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ControlContainer/ControllerP"]
+margin_top = 2.0
+margin_right = 79.0
+margin_bottom = 16.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "P coefficient"
+
+[node name="ValueText" type="TextEdit" parent="ControlContainer/ControllerP"]
+margin_left = 83.0
+margin_right = 198.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "0.5"
+
+[node name="ControllerI" type="HBoxContainer" parent="ControlContainer"]
+margin_top = 47.0
+margin_right = 198.0
+margin_bottom = 67.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ControlContainer/ControllerI"]
+margin_top = 3.0
+margin_right = 76.0
+margin_bottom = 17.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "I coefficient"
+
+[node name="ValueText" type="TextEdit" parent="ControlContainer/ControllerI"]
+margin_left = 80.0
+margin_right = 198.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "0.0"
+
+[node name="ControllerD" type="HBoxContainer" parent="ControlContainer"]
+margin_top = 71.0
+margin_right = 198.0
+margin_bottom = 90.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ControlContainer/ControllerD"]
+margin_top = 2.0
+margin_right = 81.0
+margin_bottom = 16.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "D coefficient"
+
+[node name="ValueText" type="TextEdit" parent="ControlContainer/ControllerD"]
+margin_left = 85.0
+margin_right = 198.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "-0.3"
+
+[node name="ConfoundingForceButton" type="CheckButton" parent="ControlContainer"]
+margin_top = 94.0
+margin_right = 198.0
+margin_bottom = 134.0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+text = "Confounding Force"
+
+[node name="ErrorReport" type="HBoxContainer" parent="ControlContainer"]
+margin_top = 138.0
+margin_right = 198.0
+margin_bottom = 158.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="ControlContainer/ErrorReport"]
+margin_top = 3.0
+margin_right = 30.0
+margin_bottom = 17.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Error"
+
+[node name="ValueText" type="TextEdit" parent="ControlContainer/ErrorReport"]
+margin_left = 34.0
+margin_right = 198.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "???"
+readonly = true
+
+[node name="XAxis" type="CSGBox" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.1, 0, 0 )
+width = 0.003
+height = 0.003
+depth = 0.2
+material = SubResource( 2 )
+
+[node name="YAxis" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.1, 0 )
+width = 0.003
+height = 0.003
+depth = 0.2
+material = SubResource( 3 )
+
+[node name="ZAxis" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
+width = 0.003
+height = 0.003
+depth = 0.2
+material = SubResource( 4 )
+
+[connection signal="pressed" from="ControlContainer/RandomizeTargetButton" to="." method="_on_RandomizeTargetButton_pressed"]
